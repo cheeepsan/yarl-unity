@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &952596919655318878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 952596919655318876}
+  - component: {fileID: 952596919655318877}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &952596919655318876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952596919655318878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.9954498, y: -0.029546116, z: -0.5214844}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &952596919655318877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952596919655318878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a2bcd3414af1840ae7b6e20bc3c497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model:
+    player: {fileID: 0}
+    spawnPoint: {fileID: 0}
+    enemyPool:
+    - {fileID: 7651471349311258960, guid: b6c2e87a0465e3443bd647783f53d7a3, type: 3}
+    - {fileID: 662460325010583056, guid: 872aa039c707b6d41a0f61bbd33b6b2e, type: 3}
+    pickupPool:
+    - {fileID: 8432445315707566702, guid: b9a1cedbd02d01241a3ad8110b68dfe3, type: 3}
+    - {fileID: 8645761388127403253, guid: ff0817c27cecf334683371520bc00fd4, type: 3}
+    - {fileID: 8701285901908971180, guid: 714091d8310c41047b187f1d6f931e53, type: 3}
+    - {fileID: 3988514509906390018, guid: 9297ea8672e6f8748b1c131da120a2d4, type: 3}
+    healthPickup: {fileID: 8701285901908971180, guid: 714091d8310c41047b187f1d6f931e53,
+      type: 3}
+    speedPickup: {fileID: 3988514509906390018, guid: 9297ea8672e6f8748b1c131da120a2d4,
+      type: 3}
+    damagePickup: {fileID: 8645761388127403253, guid: ff0817c27cecf334683371520bc00fd4,
+      type: 3}
+    keyPickup: {fileID: 9167490260254702639, guid: 276f697f1a11c2c43acb298a24142210,
+      type: 3}
+    ladder: {fileID: 7047710569120830677, guid: 0df80d4d1b6b68f4b8d297b5d57d062f,
+      type: 3}
+  menu: {fileID: 0}
+  generator: {fileID: 0}
+  baseLevelGraph: {fileID: 11400000, guid: bd2c8a6cf2a937b4e873ec0b10d81c24, type: 2}
+  generateOnStart: 1
