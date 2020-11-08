@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: -4853713912073398746}
   - component: {fileID: 5540496458997681953}
   - component: {fileID: -8625679881815120852}
-  - component: {fileID: 130742803819401506}
   - component: {fileID: 6604385228588376418}
+  - component: {fileID: 3003135351592268665}
   m_Layer: 8
   m_Name: enemy
   m_TagString: enemy
@@ -120,27 +120,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.1}
   serializedVersion: 2
   m_Radius: 0.6
---- !u!114 &130742803819401506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7651471349311258960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e3c11c880eee654596aeddb2ad3660a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  immunityWindowInitial: 1
-  maxHealth: 6
-  damage: 3
-  detectionRadius: 6
-  attackRange: 1
-  attackCoolDown: 3
-  activityWindow: 0
-  scoreValue: 300
 --- !u!50 &6604385228588376418
 Rigidbody2D:
   serializedVersion: 4
@@ -162,3 +141,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3003135351592268665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651471349311258960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3c11c880eee654596aeddb2ad3660a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  immunityWindowInitial: 2
+  maxHealth: 6
+  damage: 2
+  detectionRadius: 7
+  attackRange: 1
+  attackCoolDown: 3
+  activityWindow: 0
+  scoreValue: 300

@@ -16,6 +16,8 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange = 20;
     public LayerMask enemies;
 
+    public AudioSource attackAudioSource;
+
     private Animator anim;
     private Camera cam;
     private CircleCollider2D cl2d;
@@ -52,27 +54,9 @@ public class PlayerAttack : MonoBehaviour
             RotateWeapon();
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                attackTime = startTimeAttack;
-        
+                attackTime = startTimeAttack - (float)this.player.speed * 0.1f;
+
                 RotateWeaponOnAttack();
-                //var attackVector = getAttackVector();
-                //Collider2D damage = Physics2D.OverlapPoint(attackVector, enemies);
-                //if (damage != null)
-                //{
-                //    var colliderPos = damage.transform.position;
-                //    var distance = Vector2.Distance(colliderPos, player.transform.position);
-                //    if (distance < attackRange)
-                //    {
-                //        Debug.Log("RAYVAST HIT, distance: " + distance);
-                //        var enemyObj = damage.gameObject;
-                //
-                //        var enemy = enemyObj.GetComponent<EnemyController>();
-                //        enemy.ReceiveDamage(player.damage);
-                //      
-                //        
-                //    }
-                //
-                //}
                 
             }
 
@@ -110,6 +94,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void RotateWeaponOnAttack()
     {
+        
         var mousePos = Input.mousePosition;
         var worldMousePos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
         var dir = worldMousePos - weaponSpriteRndr.transform.position;
@@ -129,14 +114,13 @@ public class PlayerAttack : MonoBehaviour
 
     protected IEnumerator RotateWeaponOnAttackRoutine(float angle)
     {
-        var totalAngle = angle - 90;
-
+        attackAudioSource.Play();
         player.SetDamageEnabled(true);
-        for(int i = 0; i < 90; i += 10)
+        for(int i = 0; i < 120; i += 10)
         {
             weaponSpriteRndr.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             angle -= 10;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.005f);
         }
 
         player.SetDamageEnabled(false);

@@ -32,6 +32,15 @@ namespace Yarl.Dungeon.PostProcess
 
             List<RoomInstance> rooms = level.GetRoomInstances();
             List<EnemyController> enemiesAcc = new List<EnemyController>();
+
+            int currentLevel = player.GetCurrentLevel();
+            int difficultyMultiplier = 0;
+           
+            if (currentLevel >= 5)
+            {
+                difficultyMultiplier = (currentLevel / 5);
+            }
+
             /** too lazy to break into methods **/
             foreach (RoomInstance room in rooms)
             {
@@ -61,6 +70,8 @@ namespace Yarl.Dungeon.PostProcess
                             GameObject enemyPrefab = GetRandomEnemyFromPool(enemyPrefabPool); 
                             GameObject o = Instantiate(enemyPrefab, enemySpawnPoints.GetChild(i).position, Quaternion.identity);
                             EnemyController enemy = o.GetComponent<EnemyController>();
+                            enemy.maxHealth += (difficultyMultiplier * 2);
+                            enemy.damage += difficultyMultiplier;
                             enemiesAcc.Add(enemy);
                             if (!keyIsSet)
                             {

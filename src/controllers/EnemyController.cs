@@ -9,7 +9,7 @@ namespace Yarl.Controllers
     public class EnemyController : BaseActorController
     {
         readonly YarlModel model = Simulation.GetModel<YarlModel>();
-        PlayerController player;
+        protected PlayerController player;
 
         public float detectionRadius = 7f;
         public float attackRange = 1f;
@@ -18,8 +18,9 @@ namespace Yarl.Controllers
 
         public int scoreValue = 100;
 
-        private float currentAttackCooldown = 0f;
+        protected float currentAttackCooldown = 0f;
         private float currentActivityWindow = 0f;
+        protected bool ableToMove = true;
         public GameObject pickup {get; set;}
 
         public override void Start()
@@ -44,7 +45,7 @@ namespace Yarl.Controllers
                 currentActivityWindow = activityWindow;
             } else
             {
-                Debug.Log("Active cooldown");
+               
                 currentActivityWindow -= Time.deltaTime;
             }
 
@@ -54,7 +55,7 @@ namespace Yarl.Controllers
         {
             if(this.pickup != null)
             {
-                Debug.Log("pickup drop");
+              
                 this.pickup.transform.position = this.gameObject.transform.position;
                 this.pickup.SetActive(true);
             }
@@ -63,29 +64,45 @@ namespace Yarl.Controllers
 
         }
 
-        private void OnPlayerActivity()
+        protected virtual void OnPlayerActivity()
         {
             if (DetectPlayer() && !isDead)
             {
-                Debug.Log("Player seen");
+
                 if (currentAttackCooldown <= 0 && InAttackRange())
                 {
                     //play attack animation
-                    player.ReceiveDamage(this.damage);
+                    //player.ReceiveDamage(this.damage);
+                    AttackPlayer();
                     currentAttackCooldown = attackCoolDown;
                 }
                 else
                 {
-                    Vector2 target = new Vector2(player.transform.position.x, player.transform.position.y);
-                    float step = speed * Time.deltaTime;
-                    transform.position = Vector2.MoveTowards(transform.position, target, step);
+                    if(ableToMove)
+                    {
+                        Vector2 target = new Vector2(player.transform.position.x, player.transform.position.y);
+                        float step = speed * Time.deltaTime;
+                        transform.position = Vector2.MoveTowards(transform.position, target, step);
+                    }
+
+
                 }
 
 
             }
         }
 
-        private bool DetectPlayer()
+        protected virtual void AttackPlayer()
+        {
+            this.DamagePlayer();
+        }
+
+        public virtual void DamagePlayer()
+        {
+            player.ReceiveDamage(this.damage);
+        }
+
+        protected bool DetectPlayer()
         {
             Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.y);
             Vector2 enemyPos = new Vector2(transform.position.x, transform.position.y);
@@ -101,7 +118,7 @@ namespace Yarl.Controllers
             return false;
         }
 
-        private bool InAttackRange()
+        protected bool InAttackRange()
         {
             Vector2 playerPos = new Vector2(player.transform.position.x, player.transform.position.y);
             Vector2 enemyPos = new Vector2(transform.position.x, transform.position.y);

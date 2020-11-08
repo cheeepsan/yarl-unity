@@ -111,7 +111,7 @@ namespace Yarl.Controllers
         {
             this.health += hp;
         }
-        void OnGUI()
+        public virtual void OnGUI()
         {
 
             Vector2 targetPos;

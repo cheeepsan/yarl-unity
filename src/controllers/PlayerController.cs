@@ -21,13 +21,14 @@ namespace Yarl.Controllers
         public Text currentLevelText;
         public Text bombText;
         public Text scoreText;
+        public Text skillPointText;
 
         public int amountOfBombs;
         public int score = 0;
 
         public int bossLevel; // really shouldn't be here
         private int currentLevel { get; set; } // this as well
-        
+        private int availableSkillPoints = 0;
 
         Vector2 move; //?
         SpriteRenderer spriteRenderer;
@@ -54,6 +55,7 @@ namespace Yarl.Controllers
             this.UpdateKeyTextBox();
             this.UpdateBombAmountTextBox();
             this.UpdateScoreTextBox();
+            this.UpdateAvailableSkillPointTextBox();
 
             coll = GetComponent <CapsuleCollider2D> ();
             line = GetComponent<LineRenderer>();
@@ -68,9 +70,20 @@ namespace Yarl.Controllers
                 float mV = Input.GetAxis("Vertical");
                 rb2d.velocity = new Vector3(mH * speed, mV * speed, 0);
             }   
-            else {
+            
+            if (Input.GetKeyDown("1"))
+            {
+                UpgradeHealthPermanently();
+
+            } else if (Input.GetKeyDown("2"))
+            {
+                UpgradeDamagePermanently();
             }
-        
+            else if (Input.GetKeyDown("3"))
+            {
+                UpgradeSpeedPermanently();
+            }
+
         }
 
 
@@ -150,6 +163,17 @@ namespace Yarl.Controllers
         public bool GetDamageEnabled()
         {
             return this.damageEnabled;
+        }
+
+        private void DecreaseAvailableSkillpoints()
+        {
+            this.availableSkillPoints--;
+            UpdateAvailableSkillPointTextBox();
+        }
+        private void IncreaseAvailableSkillpoints()
+        {
+            this.availableSkillPoints++;
+            UpdateAvailableSkillPointTextBox();
         }
         /**
          * 
@@ -232,6 +256,10 @@ namespace Yarl.Controllers
         {
             this.scoreText.text = "Score: " + this.score;
         }
+        private void UpdateAvailableSkillPointTextBox()
+        {
+            this.skillPointText.text = "Available skillpoints: " + this.availableSkillPoints;
+        }
         /**
          * 
          * OTHER
@@ -242,6 +270,37 @@ namespace Yarl.Controllers
         {
             this.IncrementCurrentLevel();
             this.SetKeyFound(false);
+            this.IncreaseAvailableSkillpoints();
+        }
+
+        private void UpgradeSpeedPermanently()
+        {
+            if(this.availableSkillPoints > 0)
+            {
+                this.speed++;
+                this.DecreaseAvailableSkillpoints();
+                this.UpdateSpeedTextBox();
+            }
+
+        }
+        private void UpgradeDamagePermanently()
+        {
+            if (this.availableSkillPoints > 0)
+            {
+                this.damage++;
+                this.DecreaseAvailableSkillpoints();
+                this.UpdateDamageTextBox();
+            }
+
+        }
+        private void UpgradeHealthPermanently()
+        {
+            if (this.availableSkillPoints > 0)
+            {
+                this.maxHealth++;
+                this.DecreaseAvailableSkillpoints();
+                this.UpdateHpTextBox();
+            }
         }
         private void ShowAttackVector()
         {
@@ -262,6 +321,11 @@ namespace Yarl.Controllers
             line.positionCount = 2;
             line.SetPosition(0, playerPos);
             line.SetPosition(1, v);
+        }
+
+        public void Quit() // too lazy to implement properly
+        {
+            Application.Quit();
         }
     }
 }
