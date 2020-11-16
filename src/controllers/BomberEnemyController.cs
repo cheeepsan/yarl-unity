@@ -94,6 +94,7 @@ namespace Yarl.Controllers
             {
                 expl.SetActive(true);
             }
+            this.explosionAudioSource.Play();
             this.DamagePlayer();
             yield return new WaitForSeconds(0.3f);
             foreach (GameObject expl in explosion)

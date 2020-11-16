@@ -19,6 +19,10 @@ namespace Yarl.Controllers
 
         protected Rigidbody2D rb2d;
         protected SpriteRenderer rend;
+
+        public AudioSource hitAudioSource;
+        public AudioSource deathAudioSource;
+        public AudioSource explosionAudioSource;
         // Start is called before the first frame update
         public virtual void Start()
         {
@@ -79,6 +83,7 @@ namespace Yarl.Controllers
         {
             if (!isImmune)
             {
+                this.hitAudioSource.Play();
                 this.health -= incomingDamage;
                 this.immunityWindow = this.immunityWindowInitial;
                 isImmune = true;

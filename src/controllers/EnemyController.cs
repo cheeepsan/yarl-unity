@@ -59,6 +59,7 @@ namespace Yarl.Controllers
                 this.pickup.transform.position = this.gameObject.transform.position;
                 this.pickup.SetActive(true);
             }
+            this.deathAudioSource.Play();
             player.AddToScore(this.scoreValue);
             Destroy(this.gameObject);
 

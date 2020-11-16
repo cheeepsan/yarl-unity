@@ -6,6 +6,8 @@ using UnityEngine;
 using Yarl.Flow;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Yarl.Controllers
 {
@@ -22,6 +24,8 @@ namespace Yarl.Controllers
         public Text bombText;
         public Text scoreText;
         public Text skillPointText;
+
+        public GameObject highScorePanel;
 
         public int amountOfBombs;
         public int score = 0;
@@ -44,6 +48,8 @@ namespace Yarl.Controllers
         public override void Start()
         {
             base.Start();
+
+            this.highScorePanel.SetActive(false);
 
             keyFound = false;
             currentLevel = 1;
@@ -91,6 +97,7 @@ namespace Yarl.Controllers
         {
             if (!isImmune)
             {
+                this.hitAudioSource.Play();
                 this.health -= incomingDamage;
                 this.immunityWindow = this.immunityWindowInitial;
                 isImmune = true;
@@ -98,12 +105,46 @@ namespace Yarl.Controllers
                 this.UpdateHpTextBox();
             }
 
-            if (this.health == 0)
+            if (this.health <= 0)
             {
                 isDead = true;
-                Debug.Log("DEAD");
+                this.Die();
             }
 
+        }
+
+        protected override void Die() {
+            this.deathAudioSource.Play();
+            Time.timeScale = 0;
+            this.line.enabled = false;
+            this.highScorePanel.SetActive(true);
+            var text = this.highScorePanel.transform.Find("Total").GetComponent<Text>();
+            text.text = "Your total score is: " + this.score;
+        }
+
+        public void TransitionToMenuOnDeath() //lazy to do this properly
+        {
+            var input = this.highScorePanel.transform.Find("InputField").transform.Find("Text").GetComponent<Text>();
+            var newHighScore = new HighScore(input.text, this.score);
+
+            string scoreJson = "";
+            List<HighScore> hList = new List<HighScore>();
+            
+            if(System.IO.File.Exists("score.json"))
+            {
+                scoreJson = System.IO.File.ReadAllText("score.json");
+                hList = JsonUtility.FromJson<HighScoreWrapper>(scoreJson).l;
+                hList = hList.OrderByDescending(x => x.score).Take(9).ToList();
+            }
+
+            hList.Add(newHighScore);
+            hList = hList.OrderBy(x => x.score).ToList();
+            var wrapperList = new HighScoreWrapper() { l = hList };
+            var jsonToWrite = JsonUtility.ToJson(wrapperList);
+            System.IO.File.WriteAllText("score.json", jsonToWrite);
+
+
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
 
         public void SetKeyFound(bool keyFound)
@@ -174,6 +215,10 @@ namespace Yarl.Controllers
         {
             this.availableSkillPoints++;
             UpdateAvailableSkillPointTextBox();
+        }
+        public bool GetIsDead()
+        {
+            return this.isDead;
         }
         /**
          * 

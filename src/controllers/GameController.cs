@@ -2,6 +2,7 @@
 using ProceduralLevelGenerator.Unity.Generators.DungeonGenerator;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Yarl.Flow;
 using Yarl.Util;
@@ -20,7 +21,14 @@ namespace Yarl.Controllers
         public bool generateOnStart = false;
         void OnEnable()
         {
-            
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            model.SetPlayer(player.First().GetComponent<PlayerController>()); // bad practice
+
+            if(Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+            }
+
             this.menu.SetActive(false);
             Instance = this;
             if (this.generateOnStart)
@@ -61,14 +69,6 @@ namespace Yarl.Controllers
             this.RemoveLevelLeftovers();
             this.generator.Generate();
         }
-
-        //public void LoadBossLevel()
-        //{
-        //    Debug.Log("BOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-        //    GameObject a = GameObject.Get
-        //    this.RemoveLevelLeftovers();
-        //    this.bossLeveleGenerator.SetLevelGraphToConfig(this.bossLevelGraph);
-        //}
 
         private void RemoveLevelLeftovers()
         {

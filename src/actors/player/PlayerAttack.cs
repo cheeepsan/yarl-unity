@@ -17,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
     public LayerMask enemies;
 
     public AudioSource attackAudioSource;
+    public AudioSource explosionAudioSource;
 
     private Animator anim;
     private Camera cam;
@@ -47,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        IsDeadHack();
         TriggerExplosion();
         if (attackTime <= 0)
         {
@@ -65,6 +66,17 @@ public class PlayerAttack : MonoBehaviour
         {
             attackTime -= Time.deltaTime;
             
+        }
+    }
+
+    private void IsDeadHack() //bad hack, just lazy to implement weapon hide on death properly
+    {
+        if (player.GetIsDead())
+        {
+            if (this.weaponSpriteRndrObj.active) 
+            {
+                this.weaponSpriteRndrObj.SetActive(false);
+            }
         }
     }
 
@@ -128,6 +140,7 @@ public class PlayerAttack : MonoBehaviour
 
     protected IEnumerator ShowExplosionSprites()
     {
+        this.explosionAudioSource.Play();
         isExploding = true;
         foreach (GameObject expl in explosion)
         {

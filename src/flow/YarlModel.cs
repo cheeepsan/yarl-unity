@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Yarl.Controllers;
 namespace Yarl.Flow
@@ -23,5 +24,20 @@ namespace Yarl.Flow
         public GameObject keyPickup;
 
         public GameObject ladder;
+
+       // public YarlModel()
+       // {
+       //     if (this.player == null)
+       //     {
+       //         GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+       //         this.player = player.First().GetComponent<PlayerController>(); // bad practice
+       //         
+       //     }
+       // }
+
+        public void SetPlayer(PlayerController player)
+        {
+            this.player = player;
+        }
     }
 }
